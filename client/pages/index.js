@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import Form from '../src/components/Form'
 
 export default function Home() {
   
@@ -18,7 +19,8 @@ export default function Home() {
       </Head>
 
       <main >
-        <button onClick={addCard}>send</button>
+        <Form />
+        {/* <button onClick={addCard}>send</button> */}
       </main>
     </div>
   )
