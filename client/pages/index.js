@@ -3,6 +3,7 @@ import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 
 export default function Home() {
+
   return (
     <div className={styles.container}>
       <Head>
@@ -66,4 +67,15 @@ export default function Home() {
       </footer>
     </div>
   )
+}
+
+export async function getServerSideProps(context) {
+  const res = await fetch('https://localhost:8000', {
+    method: "GET"}).then(res => 
+  console.log(res)
+  )
+  getData()
+  return {
+    props: {}, // will be passed to the page component as props
+  }
 }
