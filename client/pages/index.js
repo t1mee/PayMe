@@ -8,8 +8,10 @@ export default function Home() {
     method: "POST", headers: {
       'Content-Type': 'application/json;charset=utf-8'
     },
-    body: JSON.stringify({ name: 'Zildjian' })})
+    body: JSON.stringify({ name: 'Zildjian' })}).then(response => response.json())
+    .then(json => console.log(json))
 
+    
   return (
     <div className={styles.container}>
       <Head>

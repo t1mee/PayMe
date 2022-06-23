@@ -16,17 +16,19 @@ let allowCrossDomain = function(req, res, next) {
     res.header('Access-Control-Allow-Headers', "*");
     next();
   }
-  app.use(allowCrossDomain);
+
+const Card = mongoose.model('Card', { name: String });
+
+app.use(allowCrossDomain);
 app.post("/api",  (req, res) => {
     // res.json({ message: "Это стартовая страница нашего приложения" });
-    console.log(req.body)
+        
+    
+    const cardReq = new Card(req.body);
+    cardReq.save().then(() => console.log('card saved'));
+    res.json({id: "123"})
   });
 
 app.listen(port, () => {
     mongoose.connect('mongodb://localhost:8000/test');
-    
-    // const Cat = mongoose.model('Cat', { name: String });
-    
-    // const kitty = new Cat({ name: 'Zildjian' });
-    // kitty.save().then(() => console.log('meow'));
 });
