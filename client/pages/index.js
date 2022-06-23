@@ -3,6 +3,12 @@ import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 
 export default function Home() {
+  
+  const addCard = async () => fetch('http://localhost:8080/api', {
+    method: "POST", headers: {
+      'Content-Type': 'application/json;charset=utf-8'
+    },
+    body: JSON.stringify({ name: 'Zildjian' })})
 
   return (
     <div className={styles.container}>
@@ -16,7 +22,7 @@ export default function Home() {
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
-
+    <button onClick={addCard}>send</button>
         <p className={styles.description}>
           Get started by editing{' '}
           <code className={styles.code}>pages/index.js</code>
@@ -70,11 +76,9 @@ export default function Home() {
 }
 
 export async function getServerSideProps(context) {
-  const res = await fetch('https://localhost:8000', {
-    method: "GET"}).then(res => 
-  console.log(res)
-  )
-  getData()
+  // const res = await fetch('http://localhost:8080/api', {
+  //   method: "POST"})
+  //   console.log(res)
   return {
     props: {}, // will be passed to the page component as props
   }
