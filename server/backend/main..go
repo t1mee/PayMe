@@ -11,7 +11,7 @@ import (
 var collection *mongo.Collection
 var ctx = context.TODO()
 
-func init() {
+func main() {
 	clientOptions := options.Client().ApplyURI("mongodb://localhost:8000/")
 	client, err := mongo.Connect(ctx, clientOptions)
 	if err != nil {
