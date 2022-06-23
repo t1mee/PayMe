@@ -21,14 +21,13 @@ const Card = mongoose.model('Card', { name: String });
 
 app.use(allowCrossDomain);
 app.post("/api",  (req, res) => {
-    // res.json({ message: "Это стартовая страница нашего приложения" });
-        
     
     const cardReq = new Card(req.body);
-    cardReq.save().then(() => console.log('card saved'));
-    res.json({id: "123"})
+    cardReq.save()
+    .then(({_id: RequestId, ...other}, res) => ({RequestId: RequestId.toString()}))
+    .then(response => res.json(response))
   });
 
 app.listen(port, () => {
-    mongoose.connect('mongodb://localhost:8000/test');
+    mongoose.connect('mongodb://localhost:8000/users');
 });
