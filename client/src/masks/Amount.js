@@ -1,16 +1,16 @@
 import React from "react";
 import { IMaskInput } from "react-imask";
 
-const NumberCard = React.forwardRef(function TextMaskCustom(
+const Amount = React.forwardRef(function TextMaskCustom(
   { onChange, name, ...other },
   ref,
 ) {
   return (
     <IMaskInput
       {...other}
-      mask="#000 0000 0000 0000"
+      mask="#000000000000000000"
       definitions={{
-        "#": /[1-9]/,
+        "#": /0|[1-9]/,
       }}
       inputRef={ref}
       onAccept={(value) => onChange({ [name]: { value, error: false } })}
@@ -19,4 +19,4 @@ const NumberCard = React.forwardRef(function TextMaskCustom(
   );
 });
 
-export default NumberCard;
+export default Amount;
