@@ -9,18 +9,14 @@ const getValidateDate = (value) => {
 };
 
 const useValidate = (name, value) => {
-  // const {
-  //   [name]: { value },
-  // } = formState;
-
   switch (name) {
-    case "cardNum":
+    case "CardNum":
       return !(value.length === 19);
-    case "date":
+    case "ExpDate":
       return getValidateDate(value);
-    case "cvv":
+    case "Cvv":
       return !(value.length === 3);
-    case "amount":
+    case "Amount":
       return !value.length;
   }
 };

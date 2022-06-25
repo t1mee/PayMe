@@ -14,15 +14,18 @@
   border-color: black;
   padding: 40px;
 }
-.cardNum {
+.CardNum {
   width: 100%;
 }
-.date {
+.ExpDate {
   width: 30%;
 }
-.amount {
+.Amount {
   width: 40%;
 }
-.cvv {
+.Cvv {
   width: 20%;
+}
+.button {
+  margin: 20px;
 }

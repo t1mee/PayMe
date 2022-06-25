@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Button, Stack, TextField } from "@mui/material";
+import { Box, Button, Stack, TextField, Snackbar } from "@mui/material";
 import style from "../../styles/form.module.css";
 import NumberCard from "../masks/NumberCard";
 import Date from "../masks/Date";
@@ -7,20 +7,31 @@ import Cvv from "../masks/Cvv";
 import Amount from "../masks/Amount";
 
 import useValidate from "../hooks/useValidate";
+import useSendData from "../hooks/useSendData";
 
 const inputProps = [
-  { name: "cardNum", label: "Card Number", inputComponent: NumberCard },
-  { name: "date", label: "Expiration Date", inputComponent: Date },
-  { name: "amount", label: "Amount", inputComponent: Amount },
-  { name: "cvv", label: "CVV", inputComponent: Cvv, type: "password" },
+  { name: "CardNum", label: "Card Number", inputComponent: NumberCard },
+  { name: "ExpDate", label: "Expiration Date", inputComponent: Date },
+  { name: "Amount", label: "Amount", inputComponent: Amount },
+  { name: "Cvv", label: "CVV", inputComponent: Cvv, type: "password" },
 ];
 
 const Form = () => {
+  const [snackState, setSnack] = useState({
+    open: false,
+    vertical: "top",
+    horizontal: "center",
+    message: "",
+  });
+  const { vertical, horizontal, ...snakeProps } = snackState;
+  const setOpenSnake = (message) =>
+    setSnack({ ...snackState, message, open: true });
+
   const [formState, setForm] = useState({
-    cardNum: { value: "", error: false },
-    date: { value: "", error: false },
-    cvv: { value: "", error: false },
-    amount: { value: "", error: false },
+    CardNum: { value: "", error: false },
+    ExpDate: { value: "", error: false },
+    Cvv: { value: "", error: false },
+    Amount: { value: "", error: false },
   });
 
   const handlerChange = (name) => (value) => {
@@ -42,33 +53,48 @@ const Form = () => {
     setDisable(isValid);
   }, [formState]);
 
+  const getSend = useSendData(formState, setOpenSnake);
+
   return (
-    <Box component="form" className={style.container}>
-      <Box className={style.form}>
-        <Stack
-          direction="row"
-          justifyContent="space-between"
-          alignContent="space-around"
-          sx={{ flexWrap: "wrap", height: "100%" }}
+    <>
+      <Box component="form" className={style.container}>
+        <Box className={style.form}>
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            alignContent="space-around"
+            sx={{ flexWrap: "wrap", height: "100%" }}
+          >
+            {inputProps.map(({ name, inputComponent, ...other }) => (
+              <TextField
+                className={style[name]}
+                key={name}
+                error={formState[name].error}
+                value={formState[name].value}
+                name={name}
+                onChange={handlerChange(name)}
+                InputProps={{
+                  inputComponent,
+                }}
+                {...other}
+              />
+            ))}
+          </Stack>
+        </Box>
+        <Button
+          onClick={getSend}
+          className={style.button}
+          disabled={disabledButton}
         >
-          {inputProps.map(({ name, inputComponent, ...other }) => (
-            <TextField
-              className={style[name]}
-              key={name}
-              error={formState[name].error}
-              value={formState[name].value}
-              name={name}
-              onChange={handlerChange(name)}
-              InputProps={{
-                inputComponent,
-              }}
-              {...other}
-            />
-          ))}
-        </Stack>
+          Send
+        </Button>
       </Box>
-      <Button disabled={disabledButton}>Send</Button>
-    </Box>
+      <Snackbar
+        anchorOrigin={{ vertical, horizontal }}
+        onClose={() => setSnack({ ...snackState, open: false })}
+        {...snakeProps}
+      />
+    </>
   );
 };
 
