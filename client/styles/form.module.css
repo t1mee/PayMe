@@ -1,15 +1,27 @@
-.container{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
 }
 .form {
-    width: 600px;
-    height: 300px;
-    border-radius: 20px;
-    border: 1px solid;
-    border-color: black;
-    padding: 40px;
+  width: 600px;
+  height: 300px;
+  border-radius: 20px;
+  border: 1px solid;
+  border-color: black;
+  padding: 40px;
+}
+.cardNum {
+  width: 100%;
+}
+.date {
+  width: 30%;
+}
+.amount {
+  width: 40%;
+}
+.cvv {
+  width: 20%;
 }

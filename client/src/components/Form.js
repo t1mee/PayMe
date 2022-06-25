@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Grid, TextField } from "@mui/material";
+import { Box, Stack, TextField } from "@mui/material";
 import style from "../../styles/form.module.css";
 import NumberCard from "../masks/NumberCard";
 import Date from "../masks/Date";
@@ -7,6 +7,13 @@ import Cvv from "../masks/Cvv";
 import Amount from "../masks/Amount";
 
 import useValidate from "../hooks/useValidate";
+
+const inputProps = [
+  { name: "cardNum", label: "Card Number", inputComponent: NumberCard },
+  { name: "date", label: "Expiration Date", inputComponent: Date },
+  { name: "amount", label: "Amount", inputComponent: Amount },
+  { name: "cvv", label: "CVV", inputComponent: Cvv, type: "password" },
+];
 
 const Form = () => {
   const [formState, setForm] = useState({
@@ -31,66 +38,28 @@ const Form = () => {
   return (
     <Box component="form" className={style.container}>
       <Box className={style.form}>
-        <Grid sx={{ height: "100%" }} container columnSpacing={3}>
-          <Grid item xs={12}>
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignContent="space-around"
+          sx={{ flexWrap: "wrap", height: "100%" }}
+        >
+          {inputProps.map(({ name, inputComponent, ...other }) => (
             <TextField
-              error={formState.cardNum.error}
-              onBlur={() => getValidate("cardNum")}
-              required
-              fullWidth
-              label="Card Number"
-              value={formState.cardNum.value}
-              name="cardNum"
+              className={style[name]}
+              key={name}
+              error={formState[name].error}
+              onBlur={() => getValidate(name)}
+              value={formState[name].value}
+              name={name}
               onChange={handlerChange}
               InputProps={{
-                inputComponent: NumberCard,
+                inputComponent,
               }}
+              {...other}
             />
-          </Grid>
-          <Grid item xs={5}>
-            <TextField
-              error={formState.date.error}
-              fullWidth
-              label="Expiration Date"
-              value={formState.date.value}
-              onBlur={() => getValidate("date")}
-              name="date"
-              onChange={handlerChange}
-              InputProps={{
-                inputComponent: Date,
-              }}
-            />
-          </Grid>
-          <Grid item xs={4}>
-            <TextField
-              error={formState.amount.error}
-              value={formState.amount.value}
-              onBlur={() => getValidate("amount")}
-              onChange={handlerChange}
-              name="amount"
-              fullWidth
-              label="Amount"
-              InputProps={{
-                inputComponent: Amount,
-              }}
-            />
-          </Grid>
-          <Grid item xs={3}>
-            <TextField
-              error={formState.cvv.error}
-              value={formState.cvv.value}
-              onChange={handlerChange}
-              fullWidth
-              onBlur={() => getValidate("cvv")}
-              InputProps={{
-                inputComponent: Cvv,
-              }}
-              type="password"
-              name="cvv"
-              label="CVV"
-            />
-          </Grid>
-        </Grid>
+          ))}
+        </Stack>
       </Box>
     </Box>
   );
