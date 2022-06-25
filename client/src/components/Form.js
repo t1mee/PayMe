@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Stack, TextField } from "@mui/material";
+import { Box, Button, Stack, TextField } from "@mui/material";
 import style from "../../styles/form.module.css";
 import NumberCard from "../masks/NumberCard";
 import Date from "../masks/Date";
@@ -23,17 +23,24 @@ const Form = () => {
     amount: { value: "", error: false },
   });
 
-  const handlerChange = (newValue) => {
-    setForm({ ...formState, ...newValue });
+  const handlerChange = (name) => (value) => {
+    const isValidate = useValidate(name, value);
+    setForm({ ...formState, [name]: { value, error: isValidate } });
   };
 
-  const getValidate = (name) => {
-    const isValidate = useValidate(name, formState);
-    setForm({
-      ...formState,
-      [name]: { ...formState[name], error: isValidate },
-    });
-  };
+  const [disabledButton, setDisable] = useState(true);
+
+  const checkErrors = () =>
+    Object.keys(formState).reduce(
+      (acc, currKey) =>
+        formState[currKey].value.length && formState[currKey].error === acc,
+      true,
+    );
+
+  useEffect(() => {
+    const isValid = !checkErrors();
+    setDisable(isValid);
+  }, [formState]);
 
   return (
     <Box component="form" className={style.container}>
@@ -49,10 +56,9 @@ const Form = () => {
               className={style[name]}
               key={name}
               error={formState[name].error}
-              onBlur={() => getValidate(name)}
               value={formState[name].value}
               name={name}
-              onChange={handlerChange}
+              onChange={handlerChange(name)}
               InputProps={{
                 inputComponent,
               }}
@@ -61,6 +67,7 @@ const Form = () => {
           ))}
         </Stack>
       </Box>
+      <Button disabled={disabledButton}>Send</Button>
     </Box>
   );
 };

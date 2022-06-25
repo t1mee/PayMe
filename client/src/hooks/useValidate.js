@@ -8,10 +8,10 @@ const getValidateDate = (value) => {
   return !(isValidYear && isMonthValid);
 };
 
-const useValidate = (name, formState) => {
-  const {
-    [name]: { value },
-  } = formState;
+const useValidate = (name, value) => {
+  // const {
+  //   [name]: { value },
+  // } = formState;
 
   switch (name) {
     case "cardNum":

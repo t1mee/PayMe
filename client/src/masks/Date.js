@@ -13,7 +13,7 @@ const Date = React.forwardRef(function TextMaskCustom(
         "#": /0|[0-9]/,
       }}
       inputRef={ref}
-      onAccept={(value) => onChange({ [name]: { value, error: false } })}
+      onAccept={(value) => onChange(value)}
       overwrite
     />
   );
