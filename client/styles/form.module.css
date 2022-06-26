@@ -26,6 +26,34 @@
 .Cvv {
   width: 20%;
 }
+
 .button {
   margin: 20px;
+  border-radius: 10px;
+  width: 200px;
+  padding: 10px;
+  position: relative;
+  display: inline-block;
+  z-index: 1;
+  background: linear-gradient(45deg, #def, #7ac);
+  transition: opacity 1s;
+}
+
+.button::before {
+  border-radius: 10px;
+  content: "";
+  display: block;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(190deg, #def, #7ac);
+  transition: opacity 0.5s ease-in-out 0.1s;
+  z-index: -1;
+}
+
+.button:hover::before {
+  opacity: 1;
 }
